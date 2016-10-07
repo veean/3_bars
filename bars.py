@@ -1,21 +1,67 @@
 import json
+import os
 
 
 def load_data(filepath):
-    pass
+    if not os.path.exists(filepath):
+        return None
+    with open(filepath, 'r', encoding="utf-8") as file_handler:
+        return json.load(file_handler)
 
 
 def get_biggest_bar(data):
-    pass
+    biggest_bar_name = ''
+    biggest_bar = float('-inf')
+    for bars in data:
+        if bars['Cells']['SeatsCount'] >= biggest_bar:
+            biggest_bar = bars['Cells']['SeatsCount']
+            biggest_bar_name = bars['Cells']['Name']
+    return biggest_bar_name
 
 
 def get_smallest_bar(data):
-    pass
+    smallest_bar_name = ''
+    smallest_bar = float('inf')
+    for bars in data:
+        if bars['Cells']['SeatsCount'] >= smallest_bar:
+            smallest_bar = bars['Cells']['SeatsCount']
+            biggest_bar_name = bars['Cells']['Name']
+    return smallest_bar_name
 
 
 def get_closest_bar(data, longitude, latitude):
-    pass
+    min_distance = float('inf')
+    longitude_closest = 0.0
+    latitude_closest = 0.0
+    name_bar = ''
+    for name in data:
+        distance = (longitude - name['Cells']['geoData']['coordinates'][0]) ** 2 + (latitude - name['Cells']['geoData']['coordinates'][1]) ** 2
+        if distance < min_distance:
+            longitude_closest = name['Cells']['geoData']['coordinates'][0]
+            latitude_closest = name['Cells']['geoData']['coordinates'][1]
+            name_bar = name['Cells']['Name']
+
+    return name_bar
+    # return name_bar, longitude_closest, latitude_closest
 
 
 if __name__ == '__main__':
-    pass
+     while True:
+        filepath = input('Введите путь до json файла: ')
+
+        print('Введите координаты своего местоположения')
+        longitude = float(input('Долгота :'))
+        latitude = float(input('Широта:'))
+
+        if not filepath and longitude and latitude:
+            print('Try again!')
+        else:
+            try:
+                pretty_data = load_data(filepath)
+                print('Ближайший бар:', get_closest_bar(pretty_data, longitude, latitude))
+
+                print('Зе biggest бар: ', get_biggest_bar(pretty_data))
+                print('Зе smallest бар: ', get_smallest_bar(pretty_data))
+                break
+            except IOError as e:
+                print("Try better : %s" % (e.args[1]))
