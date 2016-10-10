@@ -62,4 +62,4 @@ if __name__ == '__main__':
                 print('Зе smallest бар: ', get_smallest_bar(pretty_data))
                 break
             except IOError as e:
-                print("Try better : %s" % (e.args[1]))
+                print("Try better : {}".format(e.args[1]))
