@@ -38,7 +38,7 @@ if __name__ == '__main__':
     parser.add_argument('-lt', help="Ваши координаты : текущая долгота")
     args = parser.parse_args()
 
-    filepath = str(args.file).encode('ascii').decode('utf-8')
+    filepath = str(args.file).encode('ascii').decode('utf-8')#little workaround
 
     if not args.file:
         print('Try again with arguments!')
