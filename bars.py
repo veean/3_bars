@@ -27,13 +27,11 @@ def count_distance(data_unit, longitude, latitude):
 
 
 def get_closest_bar_subver(data, longtitude, latitude):
-
     bar = min(data, key=lambda x: count_distance(x, float(longtitude), float(latitude)))
     return bar['Cells']['Name']
 
 
 if __name__ == '__main__':
-
     parser = argparse.ArgumentParser(description="Analysin lots of Moscow bars")
     parser.add_argument('-file', help='Путь к json файлу')
     parser.add_argument('-ln', help="Ваши координаты : текущая широта")
